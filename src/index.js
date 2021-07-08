@@ -10,44 +10,48 @@ const refs = getRefs();
 const DEBOUNCE_DELAY = 300;
 
 
-
-
-
 refs.inputRef.addEventListener('input', debounce(onCountrySearch, DEBOUNCE_DELAY));
 
 function onCountrySearch(e) {
     e.preventDefault();
-    const searchQuery = e.target.value;
+    const searchQuery = e.target.value.trim();
     
+    if (searchQuery === '') {
+        clearData()
+        return;
+    };
+
     fetchCountries(searchQuery)
         .then(updateCountryList)
-        // .catch(Notiflix.Notify.failure('Oops, there is no country with that name'));
+        
         
 }
 
 
 function updateCountryList(data) {
     const renderCountryList = countryListTpl(data);
-
     clearData();
 
-    if (data.length >= 2 && data.length <= 10) {
-        refs.countryListContainer.innerHTML = renderCountryList;
-        return;
-    };
-    
-    if (data.length > 10) {
-        Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
-        return;
-    };
- 
-    if (data.status === 404) {
-        Notiflix.Notify.failure('Oops, there is no country with that name');
-        return;
-    };
-
+    if (data.length === 1) {
         renderCountryCard(data);
-     
+        
+    } else if (data.length > 10) {
+        makeInfoMsg('Too many matches found. Please enter a more specific name.')
+    } else if (data.status === 404) {
+        makeErrorMsg('Oops, there is no country with that name');
+    } else {
+        refs.countryListContainer.innerHTML = renderCountryList;
+    }
+};
+
+
+
+function makeErrorMsg(message) {
+    Notiflix.Notify.failure(message)
+};
+
+function makeInfoMsg(message) {
+    Notiflix.Notify.info(message)
 };
 
 
@@ -60,6 +64,8 @@ function clearData() {
     refs.countryListContainer.innerHTML = '';
     refs.countryContainer.innerHTML = '';
 };
+
+
 
 
 

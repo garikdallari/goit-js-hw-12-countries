@@ -13,11 +13,13 @@
     <link rel="stylesheet" href="./sass/main.scss">
   </head>
   <body>
-      <input class="js-country-input" type="text" name="query" id="input">
+      <div class="form__group field">
+        <input type="input" class="form__field js-country-input" placeholder="Name" name="name" id='name' required />
+        <label for="name" class="form__label">Enter Country Name</label>
+      </div>
+      
       <div class="js-country-container"></div>
-      <div class="js-countryList-container"></div>
- 
-
+      <div class="js-countryList-container list"></div>
 
     <script src="./index.js"></script>
   </body>
