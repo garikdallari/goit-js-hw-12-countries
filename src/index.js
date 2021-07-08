@@ -22,9 +22,7 @@ function onCountrySearch(e) {
     };
 
     fetchCountries(searchQuery)
-        .then(updateCountryList)
-        
-        
+        .then(updateCountryList)     
 }
 
 
@@ -43,7 +41,6 @@ function updateCountryList(data) {
         refs.countryListContainer.innerHTML = renderCountryList;
     }
 };
-
 
 
 function makeErrorMsg(message) {
